@@ -14,6 +14,6 @@ class CustomAsyncExceptionHandler : AsyncUncaughtExceptionHandler {
         vararg params: Any?
     ) {
         log.error("method[${method.name}] -> exception :: ${ex.message}")
-        ex.printStackTrace();
+        ex.printStackTrace()
     }
 }

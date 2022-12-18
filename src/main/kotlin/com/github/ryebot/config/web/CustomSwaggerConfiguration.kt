@@ -28,7 +28,6 @@ class CustomSwaggerConfiguration {
             .groupName("ryebot")
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.github.ryebot"))
-
             // paths 는 모두 등록
             .paths(PathSelectors.any())
             .build()

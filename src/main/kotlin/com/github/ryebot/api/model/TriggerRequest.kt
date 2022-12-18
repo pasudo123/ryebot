@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiModel
 )
 data class TriggerRequest(
     val action: String,
-    val number : Int,
+    val number: Int,
     val installation: InstallationDto,
     val pullRequest: PullRequestDto,
     val repository: RepositoryDto,

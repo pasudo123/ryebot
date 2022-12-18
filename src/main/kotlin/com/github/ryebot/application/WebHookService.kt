@@ -9,6 +9,5 @@ class WebHookService {
 
     @Async
     fun action(triggerRequest: TriggerRequest) {
-
     }
 }
