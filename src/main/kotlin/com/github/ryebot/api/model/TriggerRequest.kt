@@ -17,4 +17,7 @@ data class TriggerRequest(
     val pullRequest: PullRequestDto,
     val repository: RepositoryDto,
     val sender: GithubUserDto,
-)
+) {
+
+    val githubAppInstallationId = installation.id
+}

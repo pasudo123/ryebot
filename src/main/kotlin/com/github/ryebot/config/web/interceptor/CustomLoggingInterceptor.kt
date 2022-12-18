@@ -1,11 +1,8 @@
 package com.github.ryebot.config.web.interceptor
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.probotlin.action.api.model.ActionRequest
-import com.github.probotlin.action.application.ActionType
-import com.github.probotlin.config.interceptor.InterceptorUtils.toRequestBody
-import com.github.probotlin.config.toJson
-import com.github.probotlin.config.toObject
+import com.github.ryebot.api.model.TriggerRequest
+import com.github.ryebot.config.mapper.toObject
 import com.github.ryebot.config.web.CustomRequestServletWrapper
 import org.slf4j.LoggerFactory
 import org.springframework.web.servlet.HandlerInterceptor
@@ -35,12 +32,12 @@ class CustomLoggingInterceptor(
         builder.apply {
             this.appendLine()
             this.appendLine("=================================>")
-            this.appendLine("request.uri : ${request.method} ${request.requestURI}")
+            this.appendLine("request.uri : ${request.requestURI}")
+            this.appendLine("request.method : ${request.method}")
 
             try {
-                val actionRequest = requestBody.toObject<ActionRequest>()
-                this.appendLine("request.github.action : ${ActionType.findMatchType(actionRequest.action)}")
-                this.appendLine("request.body : ${actionRequest.toJson()}")
+                val triggerRequest = requestBody.toObject<TriggerRequest>()
+                this.appendLine("request.trigger.action : ${triggerRequest.action}")
             } catch (_: Exception) {}
 
             this.appendLine("=================================>")

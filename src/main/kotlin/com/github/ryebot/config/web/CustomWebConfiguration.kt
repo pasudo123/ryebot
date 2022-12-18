@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.ryebot.config.web.filter.CustomOncePerFilterForCache
 import com.github.ryebot.config.web.interceptor.CustomGithubTokenInterceptor
 import com.github.ryebot.config.web.interceptor.CustomLoggingInterceptor
+import com.github.ryebot.domain.token.GithubTokenService
 import com.github.ryebot.infra.client.GithubApiClient
 import com.github.ryebot.infra.repository.ActionRepository
 import org.springframework.boot.web.servlet.FilterRegistrationBean
@@ -19,8 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableWebMvc
 class CustomWebConfiguration(
     private val mapper: ObjectMapper,
-    private val githubApiClient: GithubApiClient,
-    private val actionRepository: ActionRepository
+    private val githubTokenService: GithubTokenService
 ) : WebMvcConfigurer {
 
     /**
@@ -47,7 +47,7 @@ class CustomWebConfiguration(
         registry.apply {
             this.addInterceptor(CustomLoggingInterceptor(mapper))
                 .order(INTERCEPTOR_ORDER_1)
-            this.addInterceptor(CustomGithubTokenInterceptor(githubApiClient, actionRepository))
+            this.addInterceptor(CustomGithubTokenInterceptor(githubTokenService))
                 .addPathPatterns(listOf("/trigger/*"))
                 .order(INTERCEPTOR_ORDER_2)
         }

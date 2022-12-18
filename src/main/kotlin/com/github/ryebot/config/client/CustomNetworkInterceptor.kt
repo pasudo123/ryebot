@@ -19,6 +19,7 @@ class CustomNetworkInterceptor(
         val builder = request.newBuilder()
 
         builder.addHeader("Accept", "application/vnd.github+json")
+
         if (requiredJwtToken != null) {
             val jwt = Jwt.build()
             builder.addHeader("Authorization", "Bearer $jwt")

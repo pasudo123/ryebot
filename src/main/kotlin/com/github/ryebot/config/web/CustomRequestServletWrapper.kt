@@ -33,6 +33,25 @@ class CustomRequestServletWrapper(request: HttpServletRequest) : HttpServletRequ
         return BufferedReader(InputStreamReader(this.inputStream, this.encoding))
     }
 
+    fun toRequestBody(): String {
+
+        val payload = StringBuilder()
+
+        return try {
+            val inputStream = this.inputStream
+            val br = BufferedReader(InputStreamReader(inputStream))
+
+            while (true) {
+                val line = br.readLine() ?: break
+                payload.append(line)
+            }
+
+            payload.toString()
+        } catch (exception: Exception) {
+            throw RuntimeException("ActionRequest 변환 발생 : ${exception.message}")
+        }
+    }
+
     private class CachedServletInputStream(private val contents: ByteArray) : ServletInputStream() {
 
         private val buffer = ByteArrayInputStream(contents)
