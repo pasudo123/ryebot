@@ -1,6 +1,7 @@
 package com.github.ryebot.infra.repository
 
-import com.github.ryebot.infra.repository.model.GitHubToken
+import com.github.ryebot.config.mapper.toJson
+import com.github.ryebot.infra.repository.model.CommitVo
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Repository
 import java.time.Duration
@@ -11,25 +12,29 @@ class ActionRepository(
 ) {
 
     fun saveToken(
-        gitHubToken: GitHubToken,
+        token: String,
         expireAt: Long = 3
     ) {
-        val key = "${TOKEN}:${gitHubToken.installationId}"
-
         with(redisTemplate) {
-            this.boundValueOps(key).set(gitHubToken.token!!)
-            this.expire(key, Duration.ofHours(expireAt))
+            this.boundValueOps(TOKEN).set(token)
+            this.expire(TOKEN, Duration.ofHours(expireAt))
         }
     }
 
-    fun getTokenOrNull(
-        gitHubToken: GitHubToken
-    ): String? {
-        val key = "${TOKEN}:${gitHubToken.installationId}"
-        return redisTemplate.boundValueOps(key).get()
+    fun getTokenOrNull(): String? {
+        return redisTemplate.boundValueOps(TOKEN).get()
+    }
+
+    fun saveCommits(commitVo: CommitVo) {
+        val key = "$COMMIT:${commitVo.owner}:${commitVo.repository}:${commitVo.prNumber}"
+        with(redisTemplate) {
+            this.boundValueOps(key).set(commitVo.toJson())
+            this.expire(key, Duration.ofHours(240))
+        }
     }
 
     companion object {
-        private const val TOKEN = "token:install"
+        private const val TOKEN = "access-token"
+        private const val COMMIT = "commit"
     }
 }

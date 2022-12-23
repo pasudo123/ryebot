@@ -83,3 +83,9 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.addKtlintFormatGitPreCommitHook {
+    println("[ryebot] addKtlintFormatGitPreCommitHook")
+    this.isEnabled = true
+    this.installHook()
+}

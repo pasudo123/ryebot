@@ -5,8 +5,6 @@ import com.github.ryebot.config.web.filter.CustomOncePerFilterForCache
 import com.github.ryebot.config.web.interceptor.CustomGithubTokenInterceptor
 import com.github.ryebot.config.web.interceptor.CustomLoggingInterceptor
 import com.github.ryebot.domain.token.GithubTokenService
-import com.github.ryebot.infra.client.GithubApiClient
-import com.github.ryebot.infra.repository.ActionRepository
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
