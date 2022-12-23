@@ -18,3 +18,4 @@ class WebHookController(
         webHookService.process(triggerRequest)
     }
 }
+
