@@ -84,6 +84,9 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+/**
+ * .git/hooks 디렉토리의 pre-commit 에 내용이 적혀있음
+ */
 tasks.addKtlintCheckGitPreCommitHook {
     println("[ryebot] addKtlintCheckGitPreCommitHook")
 }
