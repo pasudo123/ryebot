@@ -1,10 +1,7 @@
 package com.github.ryebot.domain.token
 
-import com.github.ryebot.error.ApiException
-import com.github.ryebot.error.ErrorCode
-import com.github.ryebot.error.ErrorWrapper
 import com.github.ryebot.infra.client.GithubApiClient
-import com.github.ryebot.infra.client.getErrorBody
+import com.github.ryebot.infra.client.throwApiException
 import com.github.ryebot.infra.repository.ActionRepository
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
@@ -32,15 +29,6 @@ class GithubTokenService(
             actionRepository.saveToken(payload.token)
         }
 
-        throw ApiException(
-            ErrorWrapper(
-                message = "github token 획득 시 실패하였습니다. : ${response.getErrorBody()}",
-                ErrorCode.API001,
-            )
-        )
-    }
-
-    fun getTokenOrNull(): String? = runBlocking {
-        return@runBlocking actionRepository.getTokenOrNull()
+        response.throwApiException("github token 획득 시 실패하였습니다.")
     }
 }

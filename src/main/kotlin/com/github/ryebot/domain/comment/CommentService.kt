@@ -2,13 +2,10 @@ package com.github.ryebot.domain.comment
 
 import com.github.ryebot.api.model.TriggerRequest
 import com.github.ryebot.constant.Branch
-import com.github.ryebot.error.ApiException
-import com.github.ryebot.error.ErrorCode
-import com.github.ryebot.error.ErrorWrapper
 import com.github.ryebot.infra.client.GithubApiClient
-import com.github.ryebot.infra.client.getErrorBody
 import com.github.ryebot.infra.client.model.IssueCommentRequest
 import com.github.ryebot.infra.client.model.ReleaseResponse
+import com.github.ryebot.infra.client.throwApiException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import retrofit2.awaitResponse
@@ -38,12 +35,7 @@ class CommentService(
         ).awaitResponse()
 
         if (response.isSuccessful.not()) {
-            throw ApiException(
-                ErrorWrapper(
-                    message = "issue comment 을 작성하지 못했습니다. : ${response.getErrorBody()}",
-                    ErrorCode.API001
-                )
-            )
+            response.throwApiException("issue comment 을 작성하지 못했습니다.")
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.github.ryebot.config.client
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.ryebot.domain.token.GithubTokenService
 import com.github.ryebot.infra.client.GithubApiClient
+import com.github.ryebot.infra.repository.ActionRepository
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 @ConfigurationProperties(prefix = "client")
 class CustomClientDiConfiguration(
     private val mapper: ObjectMapper,
-    private val githubTokenService: GithubTokenService
+    private val actionRepository: ActionRepository
 ) {
 
     class Client(
@@ -43,7 +43,7 @@ class CustomClientDiConfiguration(
     }
 
     private fun httpClient(client: Client): OkHttpClient {
-        val customNetworkInterceptor = CustomNetworkInterceptor(githubTokenService)
+        val customNetworkInterceptor = CustomNetworkInterceptor(actionRepository)
 
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BASIC

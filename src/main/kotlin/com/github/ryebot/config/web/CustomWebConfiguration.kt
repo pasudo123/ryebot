@@ -8,6 +8,8 @@ import com.github.ryebot.domain.token.GithubTokenService
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.converter.HttpMessageConverter
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
@@ -43,10 +45,10 @@ class CustomWebConfiguration(
      */
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.apply {
-            this.addInterceptor(CustomLoggingInterceptor(mapper))
+            this.addInterceptor(CustomLoggingInterceptor())
                 .order(INTERCEPTOR_ORDER_1)
             this.addInterceptor(CustomGithubTokenInterceptor(githubTokenService))
-                .addPathPatterns(listOf("/trigger/*"))
+                .addPathPatterns(listOf("/trigger"))
                 .order(INTERCEPTOR_ORDER_2)
         }
     }
@@ -60,6 +62,13 @@ class CustomWebConfiguration(
             this.filter = CustomOncePerFilterForCache()
             this.order = 1
         }
+    }
+
+    /**
+     * spring mvc message converter 수정
+     */
+    override fun configureMessageConverters(converters: MutableList<HttpMessageConverter<*>>) {
+        converters.add(MappingJackson2HttpMessageConverter(mapper))
     }
 
     companion object {

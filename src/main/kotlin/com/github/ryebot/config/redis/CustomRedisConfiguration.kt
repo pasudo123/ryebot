@@ -14,6 +14,7 @@ class CustomRedisConfiguration(
     fun connectionFactory(database: Int): LettuceConnectionFactory {
         return LettuceConnectionFactory(redisProperties.host, redisProperties.port).apply {
             this.database = database
+            this.afterPropertiesSet()
         }
     }
 

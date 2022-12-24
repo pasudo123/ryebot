@@ -2,12 +2,9 @@ package com.github.ryebot.domain.pullrequest
 
 import com.github.ryebot.api.model.TriggerRequest
 import com.github.ryebot.constant.Branch.RELEASE
-import com.github.ryebot.error.ApiException
-import com.github.ryebot.error.ErrorCode
-import com.github.ryebot.error.ErrorWrapper
 import com.github.ryebot.infra.client.GithubApiClient
-import com.github.ryebot.infra.client.getErrorBody
 import com.github.ryebot.infra.client.model.PrUpdateRequest
+import com.github.ryebot.infra.client.throwApiException
 import com.github.ryebot.infra.repository.ActionRepository
 import com.github.ryebot.infra.repository.model.CommitVo
 import org.slf4j.LoggerFactory
@@ -24,7 +21,7 @@ class PullRequestContentService(
 
     suspend fun changeTitleAndContentIfRelease(triggerRequest: TriggerRequest) {
         if (triggerRequest.baseBranch.contains(RELEASE).not()) {
-            log.warn("해당 브랜치[${triggerRequest.baseBranch}]는 타이틀과 내용을 수정하지 않습니다.")
+            log.warn("해당 브랜치[${triggerRequest.baseBranch}]는 타이틀과 내용을 수정할 수 없습니다.")
             return
         }
 
@@ -42,12 +39,7 @@ class PullRequestContentService(
         ).awaitResponse()
 
         if (response.isSuccessful.not()) {
-            throw ApiException(
-                ErrorWrapper(
-                    message = "pr 타이틀 및 콘텐츠 수정을 실패하였습니다. : ${response.getErrorBody()}",
-                    ErrorCode.API001
-                )
-            )
+            response.throwApiException("pr 타이틀 및 콘텐츠 수정을 실패하였습니다.")
         }
     }
 

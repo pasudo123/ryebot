@@ -1,6 +1,5 @@
 package com.github.ryebot.config.web.interceptor
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.ryebot.api.model.TriggerRequest
 import com.github.ryebot.config.mapper.toObject
 import com.github.ryebot.config.web.CustomRequestServletWrapper
@@ -12,9 +11,7 @@ import javax.servlet.http.HttpServletResponse
 /**
  * 로깅을 남기기 위함
  */
-class CustomLoggingInterceptor(
-    private val mapper: ObjectMapper
-) : HandlerInterceptor {
+class CustomLoggingInterceptor : HandlerInterceptor {
 
     private val log = LoggerFactory.getLogger(javaClass)
 

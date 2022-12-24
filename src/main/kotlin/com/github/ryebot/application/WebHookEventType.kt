@@ -6,6 +6,8 @@ package com.github.ryebot.application
  */
 enum class WebHookEventType {
     OPENED,
+    REOPENED,
+    CREATED,
     ;
 
     companion object {

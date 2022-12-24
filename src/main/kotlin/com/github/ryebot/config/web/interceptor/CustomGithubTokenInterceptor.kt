@@ -18,7 +18,7 @@ class CustomGithubTokenInterceptor(
 
         val triggerRequest = request.toRequestBody()
 
-        githubTokenService.saveTokenIfNull(triggerRequest.githubAppInstallationId)
+        githubTokenService.saveTokenIfNull(triggerRequest.githubAppInstallationId!!)
         return@runBlocking true
     }
 }
