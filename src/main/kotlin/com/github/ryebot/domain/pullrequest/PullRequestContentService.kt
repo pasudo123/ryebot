@@ -71,7 +71,7 @@ class PullRequestContentService(
             releaseBodyBuilder.appendLine(commitResponse.commit.message)
         }
 
-        // release note 에 작성될 내용
+        // release note 에 작성될 내용 : TODO("레디스에 저장 안한다면 어떻게 할 것인지")
         actionRepository.saveCommits(CommitVo.from(this, releaseBodyBuilder.toString()))
 
         return bodyBuilder.toString()

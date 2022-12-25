@@ -1,5 +1,6 @@
 package com.github.ryebot.api.model
 
+import com.github.ryebot.api.model.detail.CommentDto
 import com.github.ryebot.api.model.detail.GithubUserDto
 import com.github.ryebot.api.model.detail.InstallationDto
 import com.github.ryebot.api.model.detail.IssueDto
@@ -21,6 +22,7 @@ data class TriggerRequest(
     val number: Long? = null,
     val issue: IssueDto? = null,
     val pullRequest: PullRequestDto? = null,
+    val comment: CommentDto? = null,
 ) {
 
     val githubAppInstallationId = installation?.id
@@ -28,6 +30,7 @@ data class TriggerRequest(
     val owner = this.repository?.owner?.login ?: "empty"
     val repositoryName = this.repository?.name ?: "empty"
     val prNumber = this.number ?: this.issue?.number!!
+    val userComment = this.comment?.body ?: ""
 
     fun releaseTitleOrEmpty(): String {
         if (this.baseBranch.contains(Branch.RELEASE)) {

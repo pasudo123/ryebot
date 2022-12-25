@@ -4,7 +4,7 @@ import com.github.ryebot.infra.client.model.CommitResponse
 import com.github.ryebot.infra.client.model.IssueCommentRequest
 import com.github.ryebot.infra.client.model.IssueCommentResponse
 import com.github.ryebot.infra.client.model.PrUpdateRequest
-import com.github.ryebot.infra.client.model.PrUpdateResponse
+import com.github.ryebot.infra.client.model.PrResponse
 import com.github.ryebot.infra.client.model.ReleaseResponse
 import com.github.ryebot.infra.client.model.installation.InstallationResponse
 import retrofit2.Call
@@ -44,7 +44,7 @@ interface GithubApiClient {
         @Path("repo") repo: String,
         @Path("pullNumber") pullNumber: Long,
         @Body prUpdateRequest: PrUpdateRequest
-    ): Call<PrUpdateResponse>
+    ): Call<PrResponse>
 
     /**
      * https://docs.github.com/en/rest/releases/releases?generate-release-notes-content-for-a-release=&apiVersion=2022-11-28#get-the-latest-release
@@ -65,4 +65,14 @@ interface GithubApiClient {
         @Path("issueNumber") issueNumber: Long,
         @Body issueCommentRequest: IssueCommentRequest
     ): Call<IssueCommentResponse>
+
+    /**
+     * https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request
+     */
+    @GET("repos/{owner}/{repo}/pulls/{pullNumber}")
+    fun getPr(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("pullNumber") pullNumber: Long,
+    ): Call<PrResponse>
 }

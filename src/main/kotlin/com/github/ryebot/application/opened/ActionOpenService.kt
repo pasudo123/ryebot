@@ -3,7 +3,7 @@ package com.github.ryebot.application.opened
 import com.github.ryebot.api.model.TriggerRequest
 import com.github.ryebot.domain.comment.CommentService
 import com.github.ryebot.domain.pullrequest.PullRequestContentService
-import com.github.ryebot.domain.release.ReleaseService
+import com.github.ryebot.domain.release.ReleaseGetService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 @Service
 class ActionOpenService(
     private val pullRequestContentService: PullRequestContentService,
-    private val releaseService: ReleaseService,
+    private val releaseGetService: ReleaseGetService,
     private val commentService: CommentService
 ) {
 
@@ -23,9 +23,9 @@ class ActionOpenService(
                 pullRequestContentService.changeTitleAndContentIfRelease(triggerRequest)
             },
             async(Dispatchers.IO) {
-                val releaseResponse = releaseService.getLatestVersion(triggerRequest)
+                val releaseResponse = releaseGetService.getLatestVersion(triggerRequest)
                 with(releaseResponse) {
-                    releaseService.saveLatestVersion(triggerRequest, this)
+                    releaseGetService.saveLatestVersion(triggerRequest, this)
                     commentService.appendIssueComment(triggerRequest, this)
                 }
             }
