@@ -56,6 +56,10 @@ class PullRequestContentService(
             this.prNumber,
         ).awaitResponse()
 
+        if (commitResponses.isSuccessful.not()) {
+            commitResponses.throwApiException("커밋 메시지를 조회할 수 없습니다.")
+        }
+
         val bodyBuilder = StringBuilder().apply {
             this.appendLine("## Release 내용")
         }

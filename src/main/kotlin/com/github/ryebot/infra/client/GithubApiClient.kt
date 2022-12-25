@@ -62,7 +62,7 @@ interface GithubApiClient {
     fun createIssueComment(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-        @Path("pullNumber") pullNumber: Long,
+        @Path("issueNumber") issueNumber: Long,
         @Body issueCommentRequest: IssueCommentRequest
     ): Call<IssueCommentResponse>
 }

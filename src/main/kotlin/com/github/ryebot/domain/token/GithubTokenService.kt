@@ -24,11 +24,12 @@ class GithubTokenService(
             .createTokenByInstallId(installationId)
             .awaitResponse()
 
-        if (response.isSuccessful) {
-            val payload = response.body()!!
-            actionRepository.saveToken(payload.token)
+        if (response.isSuccessful.not()) {
+            response.throwApiException("github token 획득 실패")
+            return@runBlocking
         }
 
-        response.throwApiException("github token 획득 실패")
+        val payload = response.body()!!
+        actionRepository.saveToken(payload.token)
     }
 }

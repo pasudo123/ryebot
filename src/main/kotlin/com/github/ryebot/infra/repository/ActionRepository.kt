@@ -35,7 +35,7 @@ class ActionRepository(
     }
 
     fun saveRelease(releaseVo: ReleaseVo) {
-        val key = "$COMMIT:${releaseVo.owner}:${releaseVo.repository}"
+        val key = "$RELEASE:${releaseVo.owner}:${releaseVo.repository}"
         with(redisTemplate) {
             this.boundValueOps(key).set(releaseVo.toJson())
             this.expire(key, Duration.ofHours(240))

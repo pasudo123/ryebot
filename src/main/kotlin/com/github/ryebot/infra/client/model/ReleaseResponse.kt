@@ -1,5 +1,8 @@
 package com.github.ryebot.infra.client.model
 
+import java.time.LocalDateTime
+import kotlin.random.Random
+
 data class ReleaseResponse(
     val htmlUrl: String,
     val id: Long,
@@ -29,4 +32,16 @@ data class ReleaseResponse(
         * 기존버전에 신규 기능 추가된 경우 -> `!Release Version $major.${minor + 1}.$patch`
         * 기존버전에 기능/버그 수정된 경우 -> `!Release Version $major.$minor.${patch + 1}`
     """.trimIndent()
+
+    companion object {
+        val FIRST_RELEASE = ReleaseResponse(
+            htmlUrl = "",
+            id = Random.nextLong(until = 10),
+            targetCommitish = "",
+            name = "처음 릴리즈",
+            body = "처음 릴리즈 바디",
+            createdAt = LocalDateTime.now().toString(),
+            tagName = "v0.0.0"
+        )
+    }
 }
