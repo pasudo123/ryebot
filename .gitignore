@@ -36,5 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### private pem file
+### private pem file & properties
 src/main/resources/privatekey
+src/main/resources/githubapp

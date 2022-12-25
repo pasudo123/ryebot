@@ -4,7 +4,7 @@ import com.github.ryebot.infra.client.model.RepositoryResponse
 
 data class InstallationResponse(
     val token: String,
-    val expiredAt: String,
+    val expiresAt: String,
     val permissions: Permissions,
     val repositorySelection: String,
     val repositories: List<RepositoryResponse> = emptyList()
@@ -12,6 +12,7 @@ data class InstallationResponse(
 
     data class Permissions(
         val issues: String,
-        val contents: String
+        val metadata: String,
+        val pullRequests: String
     )
 }

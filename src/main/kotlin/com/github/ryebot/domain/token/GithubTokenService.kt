@@ -29,6 +29,6 @@ class GithubTokenService(
             actionRepository.saveToken(payload.token)
         }
 
-        response.throwApiException("github token 획득 시 실패하였습니다.")
+        response.throwApiException("github token 획득 실패")
     }
 }

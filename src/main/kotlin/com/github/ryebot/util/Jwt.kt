@@ -19,9 +19,17 @@ import java.util.Date
  */
 object Jwt {
 
+    private val propertiesFile = ClassPathResource("githubapp/github.properties").file
     private val pemFile = ClassPathResource("privatekey/ryebot999.2022-12-17.private-key.pem").file
 
+
     fun build(): String {
+
+        // appId
+        val properties = String(Files.readAllBytes(propertiesFile.toPath()))
+        val appId = properties.split("=").last()
+
+        // pem
         val privatePem = String(Files.readAllBytes(pemFile.toPath()))
             .replace("-----BEGIN RSA PRIVATE KEY-----", "")
             .replace("-----END RSA PRIVATE KEY-----", "")
@@ -47,7 +55,7 @@ object Jwt {
         val privateKey = keyFactory.generatePrivate(keySpec)
 
         return Jwts.builder()
-            .setIssuer("188959")
+            .setIssuer(appId)
             .setIssuedAt(Date.from(LocalDateTime.now().minusSeconds(60).atZone(ZoneId.of("Asia/Seoul")).toInstant()))
             .setExpiration(Date.from(LocalDateTime.now().plusSeconds(600).atZone(ZoneId.of("Asia/Seoul")).toInstant()))
             .signWith(privateKey, SignatureAlgorithm.RS256)

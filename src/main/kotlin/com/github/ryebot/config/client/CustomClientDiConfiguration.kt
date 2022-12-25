@@ -29,7 +29,7 @@ class CustomClientDiConfiguration(
 
     val github = Client()
 
-    private val headers = Headers.headersOf(namesAndValues = arrayOf("Content-Type", "application/json"))
+    private val headers = Headers.headersOf(namesAndValues = arrayOf("Content-Type", "application/json; charset=utf-8"))
 
     @Bean
     fun githubApiClient(): GithubApiClient {
