@@ -35,7 +35,7 @@ class CommentService(
         ).awaitResponse()
 
         if (response.isSuccessful.not()) {
-            response.throwApiException("issue comment 을 작성하지 못했습니다.")
+            response.throwApiException("릴리즈 및 버저닝 코멘트를 작성하지 못했습니다.")
         }
     }
 }

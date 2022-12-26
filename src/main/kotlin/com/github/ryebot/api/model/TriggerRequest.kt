@@ -8,6 +8,7 @@ import com.github.ryebot.api.model.detail.PullRequestDto
 import com.github.ryebot.api.model.detail.RepositoryDto
 import com.github.ryebot.application.model.WebHookPayload
 import com.github.ryebot.constant.Branch
+import com.github.ryebot.domain.pullrequest.model.PullRequestGetParam
 import io.swagger.annotations.ApiModel
 
 @ApiModel(
@@ -47,6 +48,14 @@ data class TriggerRequest(
             owner = owner,
             repositoryName = repositoryName,
             prNumber = prNumber
+        )
+    }
+
+    fun toPullRequestGetParam(): PullRequestGetParam {
+        return PullRequestGetParam(
+            this.owner,
+            this.repositoryName,
+            this.prNumber
         )
     }
 }
