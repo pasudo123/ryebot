@@ -6,7 +6,6 @@ import com.github.ryebot.infra.client.GithubApiClient
 import com.github.ryebot.infra.client.model.PrUpdateRequest
 import com.github.ryebot.infra.client.throwApiException
 import com.github.ryebot.infra.repository.ActionRepository
-import com.github.ryebot.infra.repository.model.CommitVo
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import retrofit2.awaitResponse
@@ -70,9 +69,6 @@ class PullRequestContentService(
             bodyBuilder.appendLine(commitResponse.commit.message)
             releaseBodyBuilder.appendLine(commitResponse.commit.message)
         }
-
-        // release note 에 작성될 내용 : TODO("레디스에 저장 안한다면 어떻게 할 것인지")
-        actionRepository.saveCommits(CommitVo.from(this, releaseBodyBuilder.toString()))
 
         return bodyBuilder.toString()
     }

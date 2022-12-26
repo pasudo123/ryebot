@@ -24,10 +24,7 @@ class ActionOpenService(
             },
             async(Dispatchers.IO) {
                 val releaseResponse = releaseGetService.getLatestVersion(triggerRequest)
-                with(releaseResponse) {
-                    releaseGetService.saveLatestVersion(triggerRequest, this)
-                    commentService.appendIssueComment(triggerRequest, this)
-                }
+                commentService.appendIssueComment(triggerRequest, releaseResponse)
             }
         ).awaitAll()
     }

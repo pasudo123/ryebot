@@ -43,17 +43,4 @@ class ReleaseGetService(
     private fun GithubErrorResponse.isFirstRelease(): Boolean {
         return this.message == "Not Found"
     }
-
-    suspend fun saveLatestVersion(triggerRequest: TriggerRequest, releaseResponse: ReleaseResponse) {
-
-        val releaseVo = ReleaseVo(
-            owner = triggerRequest.owner,
-            repository = triggerRequest.repositoryName,
-            major = releaseResponse.major,
-            minor = releaseResponse.minor,
-            patch = releaseResponse.patch
-        )
-
-        actionRepository.saveRelease(releaseVo)
-    }
 }
