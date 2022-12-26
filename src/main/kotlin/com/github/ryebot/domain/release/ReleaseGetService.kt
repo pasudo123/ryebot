@@ -7,7 +7,6 @@ import com.github.ryebot.infra.client.error.GithubErrorResponse
 import com.github.ryebot.infra.client.model.ReleaseResponse
 import com.github.ryebot.infra.client.throwApiException
 import com.github.ryebot.infra.repository.ActionRepository
-import com.github.ryebot.infra.repository.model.ReleaseVo
 import org.springframework.stereotype.Service
 import retrofit2.awaitResponse
 
