@@ -22,7 +22,6 @@ object Jwt {
     private val propertiesFile = ClassPathResource("githubapp/github.properties").file
     private val pemFile = ClassPathResource("privatekey/ryebot999.2022-12-17.private-key.pem").file
 
-
     fun build(): String {
 
         // appId

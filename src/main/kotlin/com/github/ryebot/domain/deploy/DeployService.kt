@@ -13,7 +13,6 @@ class DeployService(
     private val githubApiClient: GithubApiClient,
     private val deployMergeService: DeployMergeService,
     private val deployReleaseService: DeployReleaseService,
-    private val deployLabelService: DeployLabelService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -22,6 +21,12 @@ class DeployService(
         if (deployParam.deployPossible().not()) {
             return
         }
+
+        if (deployMergeService.merge(deployParam).not()) {
+            return
+        }
+
+        deployReleaseService.release(deployParam)
     }
 
     private suspend fun DeployParam.deployPossible(): Boolean {

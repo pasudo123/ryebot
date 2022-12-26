@@ -1,7 +1,6 @@
 package com.github.ryebot.domain.deploy.model
 
 import com.github.ryebot.constant.Branch.RELEASE
-import org.intellij.lang.annotations.RegExp
 
 data class DeployParam(
     val pullRequest: PullRequest,
@@ -36,6 +35,13 @@ data class DeployParam(
 
     fun isCommentVersionMatchTitleVersion(): Boolean {
         return this.userComment.replace(notNumberRegEx, "") == this.pullRequest.title.replace(notNumberRegEx, "")
+    }
+
+    fun getVersionTag(): String {
+        val releaseElements = this.userComment.split(" ")
+
+        // v1.2.3
+        return "v${releaseElements[2]}"
     }
 
     companion object {

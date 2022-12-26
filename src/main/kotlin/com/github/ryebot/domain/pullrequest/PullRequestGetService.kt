@@ -1,6 +1,5 @@
 package com.github.ryebot.domain.pullrequest
 
-import com.github.ryebot.domain.pullrequest.model.BaseBranch
 import com.github.ryebot.domain.pullrequest.model.PullRequest
 import com.github.ryebot.domain.pullrequest.model.PullRequestGetParam
 import com.github.ryebot.infra.client.GithubApiClient
