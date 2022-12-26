@@ -9,5 +9,4 @@ class RyebotApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

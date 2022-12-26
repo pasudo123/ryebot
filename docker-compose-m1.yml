@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  ryebot-redis:
+    image: arm64v8/redis:5.0.14
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    ports:
+      - "6379:6379"
