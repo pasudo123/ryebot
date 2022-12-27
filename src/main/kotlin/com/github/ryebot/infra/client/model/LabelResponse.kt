@@ -5,7 +5,7 @@ data class LabelResponse(
     val nodeId: String,
     val url: String,
     val name: String,
-    val description: String,
-    val color: String,
-    val default: Boolean
+    val description: String?,
+    val color: String?,
+    val default: Boolean?
 )
