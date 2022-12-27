@@ -1,8 +1,8 @@
 package com.github.ryebot.application
 
 import com.github.ryebot.api.model.TriggerRequest
-import com.github.ryebot.application.created.ActionCreatedService
-import com.github.ryebot.application.opened.ActionOpenService
+import com.github.ryebot.application.action.ActionCreatedService
+import com.github.ryebot.application.action.ActionOpenService
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Async
