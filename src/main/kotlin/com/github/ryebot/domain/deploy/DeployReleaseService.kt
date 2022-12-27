@@ -99,10 +99,12 @@ class DeployReleaseService(
             this.repository.owner,
             this.repository.name,
             this.pullRequest.prNumber,
-            IssueCommentRequest(body = """
+            IssueCommentRequest(
+                body = """
                 ## Release Note
                 ${currentRelease?.htmlUrl}
-            """.trimIndent())
+                """.trimIndent()
+            )
         ).awaitResponse()
 
         if (commentResponse.isSuccessful.not()) {

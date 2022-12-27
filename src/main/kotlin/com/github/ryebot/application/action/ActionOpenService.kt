@@ -1,4 +1,4 @@
-package com.github.ryebot.application.opened
+package com.github.ryebot.application.action
 
 import com.github.ryebot.api.model.TriggerRequest
 import com.github.ryebot.domain.comment.CommentService
@@ -15,9 +15,9 @@ class ActionOpenService(
     private val pullRequestContentService: PullRequestContentService,
     private val releaseGetService: ReleaseGetService,
     private val commentService: CommentService
-) {
+) : ActionService {
 
-    fun doAction(triggerRequest: TriggerRequest) = runBlocking(Dispatchers.IO) {
+    override fun doAction(triggerRequest: TriggerRequest): Unit = runBlocking(Dispatchers.IO) {
         listOf(
             async(Dispatchers.IO) {
                 pullRequestContentService.changeTitleAndContentIfRelease(triggerRequest)
