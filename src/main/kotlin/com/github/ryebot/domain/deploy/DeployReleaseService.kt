@@ -99,7 +99,7 @@ class DeployReleaseService(
             this.repository.owner,
             this.repository.name,
             this.pullRequest.prNumber,
-            IssueCommentRequest(body = "__릴리즈 완료하였습니다.__\n${currentRelease?.htmlUrl}\n(${currentRelease?.targetCommitish})")
+            IssueCommentRequest(body = "## Release Note${currentRelease?.htmlUrl}")
         ).awaitResponse()
 
         if (commentResponse.isSuccessful.not()) {
