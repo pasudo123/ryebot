@@ -10,6 +10,30 @@ import org.junit.jupiter.params.provider.ValueSource
 @BaseTestSupport
 internal class DeployParamTest {
 
+    @Test
+    @DisplayName("릴리즈 코멘트가 맞게 입력되었다.")
+    fun isReleaseCommentRegExWrongTest() {
+
+        // given
+        val deployParam = DeployParam(
+            DeployParam.PullRequest(
+                1,
+                "\uD83D\uDE80 Release version 1.0.5",
+                "release",
+                "release"
+            ),
+            DeployParam.Repository(
+                "owner",
+                "repository"
+            ),
+            "!Release Version 1.0.5",
+            false
+        )
+
+        // then
+        deployParam.isReleaseCommentRegExWrong() shouldBe true
+    }
+
     @ParameterizedTest
     @ValueSource(strings = ["1.0.0", "1.2.3", "1.0.22", "2.1.0"])
     @DisplayName("배포파람의 사용자 코멘트와 타이틀의 버전은 서로 일치한다.")

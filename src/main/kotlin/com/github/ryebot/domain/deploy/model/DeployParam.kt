@@ -30,8 +30,8 @@ data class DeployParam(
     }
 
     fun isReleaseCommentRegExWrong(): Boolean {
-        releaseRegEx.matchEntire(this.userComment) ?: return false
-        return true
+        releaseRegEx.matchEntire(this.userComment) ?: return true
+        return false
     }
 
     fun isCommentVersionMatchTitleVersion(): Boolean {
