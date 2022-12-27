@@ -50,7 +50,7 @@ class DeployReleaseService(
             name = "Release ${this.getVersionTag()}",
             body = this.pullRequest.body,
             tagName = this.getVersionTag(),
-            targetCommitish = RELEASE
+            targetCommitish = this.pullRequest.baseBranch
         )
 
         val response = githubApiClient.createRelease(
@@ -68,7 +68,7 @@ class DeployReleaseService(
 
         val releaseNoteCreateRequest = ReleaseNoteCreateRequest(
             tagName = this.getVersionTag(),
-            targetCommitsh = RELEASE,
+            targetCommitsh = this.pullRequest.baseBranch,
         )
 
         val response = githubApiClient.createReleaseNote(

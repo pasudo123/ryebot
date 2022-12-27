@@ -7,7 +7,6 @@ import com.github.ryebot.api.model.detail.IssueDto
 import com.github.ryebot.api.model.detail.PullRequestDto
 import com.github.ryebot.api.model.detail.RepositoryDto
 import com.github.ryebot.application.model.WebHookPayload
-import com.github.ryebot.constant.Branch
 import com.github.ryebot.domain.deploy.model.DeployBranchParam
 import com.github.ryebot.domain.deploy.model.DeployPrepareParam
 import com.github.ryebot.domain.pullrequest.model.PullRequest
@@ -38,14 +37,6 @@ data class TriggerRequest(
 
     fun isSenderTypeBot(): Boolean {
         return sender?.type == "Bot"
-    }
-
-    fun releaseTitleOrEmpty(): String {
-        if (this.baseBranch.contains(Branch.RELEASE)) {
-            return "\uD83D\uDE80 Release version x.y.z"
-        }
-
-        return ""
     }
 
     fun toWebHookPayload(): WebHookPayload {
