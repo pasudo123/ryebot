@@ -8,21 +8,21 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 @BaseTestSupport
-internal class DeployParamTest {
+internal class DeployBranchParamTest {
 
     @Test
     @DisplayName("릴리즈 코멘트가 맞게 입력되었다.")
     fun isReleaseCommentRegExWrongTest() {
 
         // given
-        val deployParam = DeployParam(
-            DeployParam.PullRequest(
+        val deployBranchParam = DeployBranchParam(
+            DeployBranchParam.PullRequest(
                 1,
                 "\uD83D\uDE80 Release version 1.0.5",
                 "release",
                 "release"
             ),
-            DeployParam.Repository(
+            DeployBranchParam.Repository(
                 "owner",
                 "repository"
             ),
@@ -31,7 +31,7 @@ internal class DeployParamTest {
         )
 
         // then
-        deployParam.isReleaseCommentRegExWrong() shouldBe true
+        deployBranchParam.isReleaseCommentRegExWrong() shouldBe true
     }
 
     @ParameterizedTest
@@ -40,14 +40,14 @@ internal class DeployParamTest {
     fun isCommentVersionNotMatchTitleVersionTest(version: String) {
 
         // given
-        val deployParam = DeployParam(
-            DeployParam.PullRequest(
+        val deployBranchParam = DeployBranchParam(
+            DeployBranchParam.PullRequest(
                 1,
                 "\uD83D\uDE80 Release version $version",
                 "release",
                 "release"
             ),
-            DeployParam.Repository(
+            DeployBranchParam.Repository(
                 "owner",
                 "repository"
             ),
@@ -56,7 +56,7 @@ internal class DeployParamTest {
         )
 
         // when
-        val actual = deployParam.isCommentVersionMatchTitleVersion()
+        val actual = deployBranchParam.isCommentVersionMatchTitleVersion()
 
         // then
         actual shouldBe true
@@ -67,14 +67,14 @@ internal class DeployParamTest {
     fun isCommentVersionNotMatchTitleVersionTest_Failed() {
 
         // given
-        val deployParam = DeployParam(
-            DeployParam.PullRequest(
+        val deployBranchParam = DeployBranchParam(
+            DeployBranchParam.PullRequest(
                 1,
                 "\uD83D\uDE80 Release version x.y.z",
                 "release",
                 "release"
             ),
-            DeployParam.Repository(
+            DeployBranchParam.Repository(
                 "owner",
                 "repository"
             ),
@@ -83,7 +83,7 @@ internal class DeployParamTest {
         )
 
         // when
-        val actual = deployParam.isCommentVersionMatchTitleVersion()
+        val actual = deployBranchParam.isCommentVersionMatchTitleVersion()
 
         // then
         actual shouldBe false

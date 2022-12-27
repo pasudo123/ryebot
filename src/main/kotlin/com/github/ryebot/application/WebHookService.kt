@@ -23,6 +23,7 @@ class WebHookService(
         val currentAction = WebHookEventType.getCurrentActionOrNull(triggerRequest.action) ?: return@runBlocking
 
         when (currentAction) {
+            WebHookEventType.REOPENED,
             WebHookEventType.OPENED -> { actionOpenService.doAction(triggerRequest) }
             WebHookEventType.CREATED -> { actionCreatedService.doAction(triggerRequest) }
             WebHookEventType.SYNCHRONIZE -> { actionSyncService.doAction(triggerRequest) }

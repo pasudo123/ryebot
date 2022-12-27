@@ -6,14 +6,12 @@ import com.github.ryebot.infra.client.GithubApiClient
 import com.github.ryebot.infra.client.error.GithubErrorResponse
 import com.github.ryebot.infra.client.model.ReleaseResponse
 import com.github.ryebot.infra.client.throwApiException
-import com.github.ryebot.infra.repository.ActionRepository
 import org.springframework.stereotype.Service
 import retrofit2.awaitResponse
 
 @Service
 class ReleaseGetService(
     private val githubApiClient: GithubApiClient,
-    private val actionRepository: ActionRepository
 ) {
 
     suspend fun getLatestVersion(triggerRequest: TriggerRequest): ReleaseResponse {

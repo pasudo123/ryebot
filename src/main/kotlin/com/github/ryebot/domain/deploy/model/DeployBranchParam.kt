@@ -2,7 +2,7 @@ package com.github.ryebot.domain.deploy.model
 
 import com.github.ryebot.constant.Branch.RELEASE
 
-data class DeployParam(
+data class DeployBranchParam(
     val pullRequest: PullRequest,
     val repository: Repository,
     val userComment: String,

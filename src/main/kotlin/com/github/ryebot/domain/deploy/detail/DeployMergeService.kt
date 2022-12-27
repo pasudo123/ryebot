@@ -1,6 +1,6 @@
-package com.github.ryebot.domain.deploy
+package com.github.ryebot.domain.deploy.detail
 
-import com.github.ryebot.domain.deploy.model.DeployParam
+import com.github.ryebot.domain.deploy.model.DeployBranchParam
 import com.github.ryebot.infra.client.GithubApiClient
 import com.github.ryebot.infra.client.model.PrMergeRequest
 import com.github.ryebot.infra.client.throwApiException
@@ -12,14 +12,14 @@ class DeployMergeService(
     private val githubApiClient: GithubApiClient
 ) {
 
-    suspend fun merge(deployParam: DeployParam): Boolean {
+    suspend fun merge(deployBranchParam: DeployBranchParam): Boolean {
 
         val mergeRequest = PrMergeRequest()
 
         val response = githubApiClient.mergePr(
-            deployParam.repository.owner,
-            deployParam.repository.name,
-            deployParam.pullRequest.prNumber,
+            deployBranchParam.repository.owner,
+            deployBranchParam.repository.name,
+            deployBranchParam.pullRequest.prNumber,
             mergeRequest
         ).awaitResponse()
 

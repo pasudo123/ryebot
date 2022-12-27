@@ -8,6 +8,9 @@ import com.github.ryebot.api.model.detail.PullRequestDto
 import com.github.ryebot.api.model.detail.RepositoryDto
 import com.github.ryebot.application.model.WebHookPayload
 import com.github.ryebot.constant.Branch
+import com.github.ryebot.domain.deploy.model.DeployBranchParam
+import com.github.ryebot.domain.deploy.model.DeployPrepareParam
+import com.github.ryebot.domain.pullrequest.model.PullRequest
 import com.github.ryebot.domain.pullrequest.model.PullRequestGetParam
 import io.swagger.annotations.ApiModel
 
@@ -60,6 +63,32 @@ data class TriggerRequest(
             this.owner,
             this.repositoryName,
             this.prNumber
+        )
+    }
+
+    fun toDeployBranchParamWithPullRequest(PullRequest: PullRequest): DeployBranchParam {
+        return DeployBranchParam(
+            DeployBranchParam.PullRequest(
+                prNumber = PullRequest.number,
+                title = PullRequest.title,
+                body = PullRequest.body,
+                baseBranch = PullRequest.baseBranch
+            ),
+            DeployBranchParam.Repository(
+                owner = this.owner,
+                name = this.repositoryName
+            ),
+            this.userComment,
+            this.isSenderTypeBot()
+        )
+    }
+
+    fun toDeployPrepareParam(): DeployPrepareParam {
+        return DeployPrepareParam(
+            baseBranch = this.baseBranch,
+            owner = this.owner,
+            repositoryName = this.repositoryName,
+            prNumber = this.prNumber
         )
     }
 }

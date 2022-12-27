@@ -1,7 +1,7 @@
-package com.github.ryebot.domain.deploy
+package com.github.ryebot.domain.deploy.detail
 
 import com.github.ryebot.constant.Branch.RELEASE
-import com.github.ryebot.domain.deploy.model.DeployParam
+import com.github.ryebot.domain.deploy.model.DeployBranchParam
 import com.github.ryebot.infra.client.GithubApiClient
 import com.github.ryebot.infra.client.model.IssueCommentRequest
 import com.github.ryebot.infra.client.model.LabelRequest
@@ -20,18 +20,18 @@ class DeployReleaseService(
     private val githubApiClient: GithubApiClient
 ) {
 
-    fun release(deployParam: DeployParam) = runBlocking(Dispatchers.IO) {
+    fun release(deployBranchParam: DeployBranchParam) = runBlocking(Dispatchers.IO) {
         listOf(
-            async { deployParam.setLabel() },
-            async { deployParam.createRelease() },
-            async { deployParam.createReleaseNote() },
+            async { deployBranchParam.setLabel() },
+            async { deployBranchParam.createRelease() },
+            async { deployBranchParam.createReleaseNote() },
         ).awaitAll()
 
         // 릴리즈 완료에 대한 코멘트 작성
-        deployParam.createReleaseComment()
+        deployBranchParam.createReleaseComment()
     }
 
-    private suspend fun DeployParam.setLabel() {
+    private suspend fun DeployBranchParam.setLabel() {
         val response = githubApiClient.setLabels(
             this.repository.owner,
             this.repository.name,
@@ -44,7 +44,7 @@ class DeployReleaseService(
         }
     }
 
-    private suspend fun DeployParam.createRelease() {
+    private suspend fun DeployBranchParam.createRelease() {
 
         val releaseCreateRequest = ReleaseCreateRequest(
             name = "Release ${this.getVersionTag()}",
@@ -64,7 +64,7 @@ class DeployReleaseService(
         }
     }
 
-    private suspend fun DeployParam.createReleaseNote() {
+    private suspend fun DeployBranchParam.createReleaseNote() {
 
         val releaseNoteCreateRequest = ReleaseNoteCreateRequest(
             tagName = this.getVersionTag(),
@@ -82,7 +82,7 @@ class DeployReleaseService(
         }
     }
 
-    private suspend fun DeployParam.createReleaseComment() {
+    private suspend fun DeployBranchParam.createReleaseComment() {
 
         val releaseResponse = githubApiClient.getLatestRelease(
             this.repository.owner,

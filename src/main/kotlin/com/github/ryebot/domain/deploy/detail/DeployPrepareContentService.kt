@@ -1,39 +1,37 @@
-package com.github.ryebot.domain.pullrequest
+package com.github.ryebot.domain.deploy.detail
 
-import com.github.ryebot.api.model.TriggerRequest
-import com.github.ryebot.constant.Branch.RELEASE
+import com.github.ryebot.domain.deploy.model.DeployPrepareParam
 import com.github.ryebot.infra.client.GithubApiClient
 import com.github.ryebot.infra.client.model.PrUpdateRequest
 import com.github.ryebot.infra.client.throwApiException
-import com.github.ryebot.infra.repository.ActionRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import retrofit2.awaitResponse
 
 @Service
-class PullRequestContentService(
-    private val githubApiClient: GithubApiClient,
-    private val actionRepository: ActionRepository
+class DeployPrepareContentService(
+    private val githubApiClient: GithubApiClient
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    suspend fun changeTitleAndContentIfRelease(triggerRequest: TriggerRequest) {
-        if (triggerRequest.baseBranch.contains(RELEASE).not()) {
-            log.warn("해당 브랜치[${triggerRequest.baseBranch}]는 타이틀과 내용을 수정할 수 없습니다.")
+    suspend fun updateTitleAndContentOnRelease(deployPrepareParam: DeployPrepareParam) {
+
+        if (deployPrepareParam.isBaseBranchRelease().not()) {
+            log.warn("해당 브랜치[${deployPrepareParam.baseBranch}]는 릴리즈 타이틀 및 내용을 수정할 수 없습니다.")
             return
         }
 
         val prUpdateRequest = PrUpdateRequest(
-            title = triggerRequest.releaseTitleOrEmpty(),
-            body = triggerRequest.getCommitMessages(),
-            base = triggerRequest.baseBranch
+            title = deployPrepareParam.releaseTitleOrEmpty(),
+            body = deployPrepareParam.getCommitMessages(),
+            base = deployPrepareParam.baseBranch
         )
 
         val response = githubApiClient.updatePr(
-            triggerRequest.owner,
-            triggerRequest.repositoryName,
-            triggerRequest.prNumber,
+            deployPrepareParam.owner,
+            deployPrepareParam.repositoryName,
+            deployPrepareParam.prNumber,
             prUpdateRequest
         ).awaitResponse()
 
@@ -42,12 +40,7 @@ class PullRequestContentService(
         }
     }
 
-    private suspend fun TriggerRequest.getCommitMessages(): String {
-        if (this.pullRequest == null ||
-            this.baseBranch.contains(RELEASE).not()
-        ) {
-            return ""
-        }
+    private suspend fun DeployPrepareParam.getCommitMessages(): String {
 
         val commitResponses = githubApiClient.getCommitsByPr(
             this.owner,
@@ -63,11 +56,8 @@ class PullRequestContentService(
             this.appendLine("## Release 내용")
         }
 
-        val releaseBodyBuilder = StringBuilder()
-
         commitResponses.body()?.forEach { commitResponse ->
             bodyBuilder.appendLine(commitResponse.commit.message)
-            releaseBodyBuilder.appendLine(commitResponse.commit.message)
         }
 
         return bodyBuilder.toString()
