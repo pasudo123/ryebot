@@ -21,8 +21,7 @@ class WebHookService(
         val currentAction = WebHookEventType.getCurrentActionOrNull(triggerRequest.action) ?: return@runBlocking
 
         when (currentAction) {
-            WebHookEventType.OPENED,
-            WebHookEventType.REOPENED -> { actionOpenService.doAction(triggerRequest) }
+            WebHookEventType.OPENED -> { actionOpenService.doAction(triggerRequest) }
             WebHookEventType.CREATED -> { actionCreatedService.doAction(triggerRequest) }
             else -> {
                 log.warn("작동하지 않는 액션이 들어왔습니다. : action[$currentAction]")

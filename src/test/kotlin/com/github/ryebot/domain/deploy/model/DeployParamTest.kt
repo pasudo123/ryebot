@@ -27,7 +27,8 @@ internal class DeployParamTest {
                 "owner",
                 "repository"
             ),
-            "!Release Version $version"
+            "!Release Version $version",
+            false
         )
 
         // when
@@ -45,7 +46,7 @@ internal class DeployParamTest {
         val deployParam = DeployParam(
             DeployParam.PullRequest(
                 1,
-                "\uD83D\uDE80 Release version 1.2.3",
+                "\uD83D\uDE80 Release version x.y.z",
                 "release",
                 "release"
             ),
@@ -53,7 +54,8 @@ internal class DeployParamTest {
                 "owner",
                 "repository"
             ),
-            "!Release Version 2.1.2"
+            "asdasd",
+            false
         )
 
         // when
@@ -61,5 +63,18 @@ internal class DeployParamTest {
 
         // then
         actual shouldBe false
+    }
+
+    @Test
+    @DisplayName("정규식 확인")
+    fun regExTest() {
+
+        val versionRegEx = Regex("\\d+\\.\\d+\\.\\d")
+
+        val groups1 = versionRegEx.find("\uD83D\uDE80 Release version x.y.z")?.groupValues
+        val groups2 = versionRegEx.find("\uD83D\uDE80 null")?.groupValues
+
+        println(groups1?.first())
+        println(groups2?.first())
     }
 }
