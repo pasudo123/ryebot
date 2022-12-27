@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class ActionCreatedService(
     private val pullRequestGetService: PullRequestGetService,
     private val deployService: DeployService,
-): ActionService {
+) : ActionService {
 
     override fun doAction(triggerRequest: TriggerRequest) = runBlocking(Dispatchers.IO) {
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class ActionSyncService(
     private val pullRequestContentService: PullRequestContentService,
-): ActionService {
+) : ActionService {
 
     override fun doAction(triggerRequest: TriggerRequest) = runBlocking(Dispatchers.IO) {
         pullRequestContentService.changeTitleAndContentIfRelease(triggerRequest)

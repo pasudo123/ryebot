@@ -8,6 +8,7 @@ enum class WebHookEventType {
     OPENED,
     REOPENED,
     CREATED,
+    SYNCHRONIZE,
     ;
 
     companion object {

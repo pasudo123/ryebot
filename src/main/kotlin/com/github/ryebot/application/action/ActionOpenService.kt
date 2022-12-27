@@ -15,7 +15,7 @@ class ActionOpenService(
     private val pullRequestContentService: PullRequestContentService,
     private val releaseGetService: ReleaseGetService,
     private val commentService: CommentService
-): ActionService {
+) : ActionService {
 
     override fun doAction(triggerRequest: TriggerRequest): Unit = runBlocking(Dispatchers.IO) {
         listOf(
