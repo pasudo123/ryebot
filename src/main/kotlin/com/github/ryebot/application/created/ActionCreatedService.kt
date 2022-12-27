@@ -32,7 +32,8 @@ class ActionCreatedService(
                 owner = triggerRequest.owner,
                 name = triggerRequest.repositoryName
             ),
-            triggerRequest.userComment
+            triggerRequest.userComment,
+            triggerRequest.isSenderTypeBot()
         )
 
         deployService.releaseIfPossibleOrNot(deployParam)

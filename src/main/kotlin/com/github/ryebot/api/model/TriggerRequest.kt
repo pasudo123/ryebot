@@ -33,6 +33,10 @@ data class TriggerRequest(
     val prNumber = this.number ?: this.issue?.number!!
     val userComment = this.comment?.body ?: ""
 
+    fun isSenderTypeBot(): Boolean {
+        return sender?.type == "Bot"
+    }
+
     fun releaseTitleOrEmpty(): String {
         if (this.baseBranch.contains(Branch.RELEASE)) {
             return "\uD83D\uDE80 Release version x.y.z"

@@ -5,7 +5,8 @@ import com.github.ryebot.constant.Branch.RELEASE
 data class DeployParam(
     val pullRequest: PullRequest,
     val repository: Repository,
-    val userComment: String
+    val userComment: String,
+    val isSenderBot: Boolean
 ) {
 
     data class PullRequest(
@@ -34,7 +35,14 @@ data class DeployParam(
     }
 
     fun isCommentVersionMatchTitleVersion(): Boolean {
-        return this.userComment.replace(notNumberRegEx, "") == this.pullRequest.title.replace(notNumberRegEx, "")
+        val userCommentVersion = versionRegEx.find(this.userComment)?.groupValues?.first()
+        val titleVersion = versionRegEx.find(this.pullRequest.title)?.groupValues?.first()
+
+        if (userCommentVersion == null || titleVersion == null) {
+            return false
+        }
+
+        return userCommentVersion == titleVersion
     }
 
     fun getVersionTag(): String {
@@ -46,6 +54,6 @@ data class DeployParam(
 
     companion object {
         private val releaseRegEx = Regex("^!Release\\sVersion\\s\\d+\\.\\d+\\.\\d+")
-        private val notNumberRegEx = Regex("\\D")
+        private val versionRegEx = Regex("\\d+\\.\\d+\\.\\d")
     }
 }

@@ -30,6 +30,11 @@ class DeployService(
     }
 
     private suspend fun DeployParam.deployPossible(): Boolean {
+        if (this.isSenderBot) {
+            log.warn("봇이 작성한 메시지입니다.")
+            return false
+        }
+
         if (this.isReleaseBaseBranch().not()) {
             log.warn("base 브랜치가 release 가 아닙니다.")
             return false
@@ -55,7 +60,7 @@ class DeployService(
         return true
     }
 
-    suspend fun notifyToUserWrongComment(deployParam: DeployParam, message: String) {
+    private suspend fun notifyToUserWrongComment(deployParam: DeployParam, message: String) {
 
         val response = githubApiClient.createIssueComment(
             deployParam.repository.owner,
