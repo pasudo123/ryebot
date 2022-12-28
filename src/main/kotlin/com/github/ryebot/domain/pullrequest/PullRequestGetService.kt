@@ -30,7 +30,8 @@ class PullRequestGetService(
                 number = prResponse.number,
                 title = prResponse.title,
                 body = prResponse.body,
-                baseBranch = prResponse.base.ref ?: ""
+                baseBranch = prResponse.base.ref ?: "",
+                commitSha = prResponse.head.sha ?: ""
             )
         }
 

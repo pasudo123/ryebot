@@ -19,6 +19,6 @@ fun <T> Response<T>.throwApiException(message: String) {
     )
 }
 
-private fun <T> Response<T>.getErrorBody(): String {
+fun <T> Response<T>.getErrorBody(): String {
     return this.errorBody()?.string() ?: ""
 }

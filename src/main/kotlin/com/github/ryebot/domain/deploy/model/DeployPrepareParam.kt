@@ -6,7 +6,8 @@ data class DeployPrepareParam(
     val baseBranch: String,
     val owner: String,
     val repositoryName: String,
-    val prNumber: Long
+    val prNumber: Long,
+    val commitSha: String
 ) {
 
     fun isBaseBranchRelease(): Boolean {

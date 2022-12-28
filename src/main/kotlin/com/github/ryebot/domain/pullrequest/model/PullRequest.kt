@@ -5,5 +5,6 @@ class PullRequest(
     val number: Long,
     val title: String,
     val body: String,
-    val baseBranch: String
+    val baseBranch: String,
+    val commitSha: String
 )
