@@ -5,6 +5,7 @@ import com.github.ryebot.domain.deploy.model.DeployBranchParam
 import com.github.ryebot.infra.client.GithubApiClient
 import com.github.ryebot.infra.client.model.IssueCommentRequest
 import com.github.ryebot.infra.client.model.LabelRequest
+import com.github.ryebot.infra.client.model.MergeBranchRequest
 import com.github.ryebot.infra.client.model.ReleaseCreateRequest
 import com.github.ryebot.infra.client.model.ReleaseNoteCreateRequest
 import com.github.ryebot.infra.client.throwApiException
@@ -25,6 +26,7 @@ class DeployReleaseService(
             async { deployBranchParam.setLabel() },
             async { deployBranchParam.createRelease() },
             async { deployBranchParam.createReleaseNote() },
+            async { deployBranchParam.mergeReleaseToStandardBranch() }
         ).awaitAll()
 
         // 릴리즈 완료에 대한 코멘트 작성
@@ -109,6 +111,33 @@ class DeployReleaseService(
 
         if (commentResponse.isSuccessful.not()) {
             commentResponse.throwApiException("릴리즈 완료 코멘트 작성에 실패했습니다.")
+        }
+    }
+
+    /**
+     * 기준브랜치로 다시 병합처리.
+     * release -> (master | main) 로 병합한다.
+     */
+    private suspend fun DeployBranchParam.mergeReleaseToStandardBranch() {
+        val baseBranch = "main"
+
+        // base branch 가 이젠 head 가 되어서 머지한다.
+        val headBranch = this.pullRequest.baseBranch
+
+        val mergeBranchRequest = MergeBranchRequest(
+            base = baseBranch,
+            head = headBranch,
+            commitMessage = "\uD83E\uDD16 AUTO MERGE :: $headBranch -> $baseBranch"
+        )
+
+        val response = githubApiClient.mergeBranch(
+            this.repository.owner,
+            this.repository.name,
+            mergeBranchRequest
+        ).awaitResponse()
+
+        if (response.isSuccessful.not()) {
+            response.throwApiException("릴리즈 브랜치 머지에 실패했습니다.")
         }
     }
 }

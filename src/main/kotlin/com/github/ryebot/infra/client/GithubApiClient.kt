@@ -2,12 +2,13 @@ package com.github.ryebot.infra.client
 
 import com.github.ryebot.infra.client.model.CheckRunRequest
 import com.github.ryebot.infra.client.model.CheckRunResponse
-import com.github.ryebot.infra.client.model.CheckRunResponses
 import com.github.ryebot.infra.client.model.CommitResponse
 import com.github.ryebot.infra.client.model.IssueCommentRequest
 import com.github.ryebot.infra.client.model.IssueCommentResponse
 import com.github.ryebot.infra.client.model.LabelRequest
 import com.github.ryebot.infra.client.model.LabelResponse
+import com.github.ryebot.infra.client.model.MergeBranchRequest
+import com.github.ryebot.infra.client.model.MergeBranchResponse
 import com.github.ryebot.infra.client.model.PrMergeRequest
 import com.github.ryebot.infra.client.model.PrMergeResponse
 import com.github.ryebot.infra.client.model.PrResponse
@@ -141,4 +142,11 @@ interface GithubApiClient {
         @Path("checkRunId") checkRunId: Long,
         @Body checkRunRequest: CheckRunRequest
     ): Call<CheckRunResponse>
+
+    @POST("repos/{owner}/{repo}/merges")
+    fun mergeBranch(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Body mergeBranchRequest: MergeBranchRequest
+    ): Call<MergeBranchResponse>
 }
