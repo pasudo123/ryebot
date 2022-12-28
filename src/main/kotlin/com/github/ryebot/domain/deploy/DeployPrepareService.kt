@@ -1,5 +1,6 @@
 package com.github.ryebot.domain.deploy
 
+import com.github.ryebot.domain.deploy.detail.DeployCiService
 import com.github.ryebot.domain.deploy.detail.DeployPrepareCommentService
 import com.github.ryebot.domain.deploy.detail.DeployPrepareContentService
 import com.github.ryebot.domain.deploy.model.DeployPrepareParam
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service
 @Service
 class DeployPrepareService(
     private val deployPrepareContentService: DeployPrepareContentService,
-    private val deployPrepareCommentService: DeployPrepareCommentService
+    private val deployPrepareCommentService: DeployPrepareCommentService,
+    private val deployCiService: DeployCiService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -24,9 +26,15 @@ class DeployPrepareService(
             return@runBlocking
         }
 
+        val deployCheckParam = deployCiService.progressDeployCheck(deployPrepareParam)
+
         listOf(
             async { deployPrepareContentService.updateTitleAndContentOnRelease(deployPrepareParam) },
             async { deployPrepareCommentService.prepareReleaseVersionComment(deployPrepareParam) }
         ).awaitAll()
+
+        deployCheckParam?.run {
+            deployCiService.completedDeployCheck(deployPrepareParam, deployCheckParam)
+        }
     }
 }

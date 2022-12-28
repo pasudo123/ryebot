@@ -28,12 +28,14 @@ data class TriggerRequest(
     val comment: CommentDto? = null,
 ) {
 
+    private val commitSha = this.pullRequest?.head?.sha ?: "empty"
+    private val repositoryName = this.repository?.name ?: "empty"
+    private val prNumber = this.number ?: this.issue?.number!!
+    private val userComment = this.comment?.body ?: ""
+
     val githubAppInstallationId = installation?.id
     val baseBranch = this.pullRequest?.base?.ref ?: "empty"
     val owner = this.repository?.owner?.login ?: "empty"
-    val repositoryName = this.repository?.name ?: "empty"
-    val prNumber = this.number ?: this.issue?.number!!
-    val userComment = this.comment?.body ?: ""
 
     fun isSenderTypeBot(): Boolean {
         return sender?.type == "Bot"
@@ -57,13 +59,14 @@ data class TriggerRequest(
         )
     }
 
-    fun toDeployBranchParamWithPullRequest(PullRequest: PullRequest): DeployBranchParam {
+    fun toDeployBranchParamWithPullRequest(pullRequest: PullRequest): DeployBranchParam {
         return DeployBranchParam(
             DeployBranchParam.PullRequest(
-                prNumber = PullRequest.number,
-                title = PullRequest.title,
-                body = PullRequest.body,
-                baseBranch = PullRequest.baseBranch
+                prNumber = pullRequest.number,
+                title = pullRequest.title,
+                body = pullRequest.body,
+                baseBranch = pullRequest.baseBranch,
+                commitSha = pullRequest.commitSha
             ),
             DeployBranchParam.Repository(
                 owner = this.owner,
@@ -79,7 +82,8 @@ data class TriggerRequest(
             baseBranch = this.baseBranch,
             owner = this.owner,
             repositoryName = this.repositoryName,
-            prNumber = this.prNumber
+            prNumber = this.prNumber,
+            commitSha = this.commitSha
         )
     }
 }

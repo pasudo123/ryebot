@@ -13,7 +13,8 @@ data class DeployBranchParam(
         val prNumber: Long,
         val title: String,
         val body: String,
-        val baseBranch: String
+        val baseBranch: String,
+        val commitSha: String,
     )
 
     data class Repository(

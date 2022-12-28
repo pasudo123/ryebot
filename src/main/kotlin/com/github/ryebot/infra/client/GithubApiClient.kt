@@ -1,5 +1,8 @@
 package com.github.ryebot.infra.client
 
+import com.github.ryebot.infra.client.model.CheckRunRequest
+import com.github.ryebot.infra.client.model.CheckRunResponse
+import com.github.ryebot.infra.client.model.CheckRunResponses
 import com.github.ryebot.infra.client.model.CommitResponse
 import com.github.ryebot.infra.client.model.IssueCommentRequest
 import com.github.ryebot.infra.client.model.IssueCommentResponse
@@ -123,4 +126,19 @@ interface GithubApiClient {
         @Path("issueNumber") pullNumber: Long,
         @Body labelUpdateRequest: LabelRequest
     ): Call<List<LabelResponse>>
+
+    @POST("repos/{owner}/{repo}/check-runs")
+    fun createCheckRun(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Body checkRunRequest: CheckRunRequest
+    ): Call<CheckRunResponse>
+
+    @PATCH("repos/{owner}/{repo}/check-runs/{checkRunId}")
+    fun updateCheckRun(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("checkRunId") checkRunId: Long,
+        @Body checkRunRequest: CheckRunRequest
+    ): Call<CheckRunResponse>
 }

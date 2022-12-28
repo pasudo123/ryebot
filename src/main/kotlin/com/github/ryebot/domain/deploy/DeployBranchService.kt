@@ -1,5 +1,6 @@
 package com.github.ryebot.domain.deploy
 
+import com.github.ryebot.domain.deploy.detail.DeployCiService
 import com.github.ryebot.domain.deploy.detail.DeployMergeService
 import com.github.ryebot.domain.deploy.detail.DeployPolicyService
 import com.github.ryebot.domain.deploy.detail.DeployReleaseService
@@ -11,6 +12,7 @@ class DeployBranchService(
     private val deployPolicyService: DeployPolicyService,
     private val deployMergeService: DeployMergeService,
     private val deployReleaseService: DeployReleaseService,
+    private val deployCiService: DeployCiService
 ) {
 
     suspend fun releaseIfPossibleOrNot(deployBranchParam: DeployBranchParam) {
