@@ -7,10 +7,6 @@ import com.github.ryebot.api.model.detail.IssueDto
 import com.github.ryebot.api.model.detail.PullRequestDto
 import com.github.ryebot.api.model.detail.RepositoryDto
 import com.github.ryebot.application.model.WebHookPayload
-import com.github.ryebot.domain.deploy.model.DeployBranchParam
-import com.github.ryebot.domain.deploy.model.DeployPrepareParam
-import com.github.ryebot.domain.pullrequest.model.PullRequest
-import com.github.ryebot.domain.pullrequest.model.PullRequestGetParam
 import io.swagger.annotations.ApiModel
 
 @ApiModel(
@@ -32,58 +28,23 @@ data class TriggerRequest(
     private val repositoryName = this.repository?.name ?: "empty"
     private val prNumber = this.number ?: this.issue?.number!!
     private val userComment = this.comment?.body ?: ""
+    private val isSenderBotType = this.sender?.type == "Bot"
 
     val githubAppInstallationId = installation?.id
     val baseBranch = this.pullRequest?.base?.ref ?: "empty"
     val owner = this.repository?.owner?.login ?: "empty"
 
-    fun isSenderTypeBot(): Boolean {
-        return sender?.type == "Bot"
-    }
-
     fun toWebHookPayload(): WebHookPayload {
         return WebHookPayload(
+            action = action,
             installationId = githubAppInstallationId,
             baseBranch = baseBranch,
             owner = owner,
             repositoryName = repositoryName,
-            prNumber = prNumber
-        )
-    }
-
-    fun toPullRequestGetParam(): PullRequestGetParam {
-        return PullRequestGetParam(
-            this.owner,
-            this.repositoryName,
-            this.prNumber
-        )
-    }
-
-    fun toDeployBranchParamWithPullRequest(pullRequest: PullRequest): DeployBranchParam {
-        return DeployBranchParam(
-            DeployBranchParam.PullRequest(
-                prNumber = pullRequest.number,
-                title = pullRequest.title,
-                body = pullRequest.body,
-                baseBranch = pullRequest.baseBranch,
-                commitSha = pullRequest.commitSha
-            ),
-            DeployBranchParam.Repository(
-                owner = this.owner,
-                name = this.repositoryName
-            ),
-            this.userComment,
-            this.isSenderTypeBot()
-        )
-    }
-
-    fun toDeployPrepareParam(): DeployPrepareParam {
-        return DeployPrepareParam(
-            baseBranch = this.baseBranch,
-            owner = this.owner,
-            repositoryName = this.repositoryName,
-            prNumber = this.prNumber,
-            commitSha = this.commitSha
+            prNumber = prNumber,
+            userComment = userComment,
+            commitSha = commitSha,
+            isBotSender = this.isSenderBotType
         )
     }
 }

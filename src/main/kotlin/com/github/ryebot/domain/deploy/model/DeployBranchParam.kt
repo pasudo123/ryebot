@@ -14,7 +14,6 @@ data class DeployBranchParam(
         val title: String,
         val body: String,
         val baseBranch: String,
-        val commitSha: String,
     )
 
     data class Repository(

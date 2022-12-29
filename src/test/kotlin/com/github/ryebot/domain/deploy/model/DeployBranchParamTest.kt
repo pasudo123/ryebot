@@ -21,7 +21,6 @@ internal class DeployBranchParamTest {
                 "\uD83D\uDE80 Release version 1.0.5",
                 "release",
                 "release",
-                "commitSha"
             ),
             DeployBranchParam.Repository(
                 "owner",
@@ -47,7 +46,6 @@ internal class DeployBranchParamTest {
                 "\uD83D\uDE80 Release version $version",
                 "release",
                 "release",
-                "commitSha"
             ),
             DeployBranchParam.Repository(
                 "owner",
@@ -75,7 +73,6 @@ internal class DeployBranchParamTest {
                 "\uD83D\uDE80 Release version x.y.z",
                 "release",
                 "release",
-                "commitSha"
             ),
             DeployBranchParam.Repository(
                 "owner",

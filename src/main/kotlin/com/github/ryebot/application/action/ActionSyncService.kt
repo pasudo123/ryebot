@@ -1,6 +1,6 @@
 package com.github.ryebot.application.action
 
-import com.github.ryebot.api.model.TriggerRequest
+import com.github.ryebot.application.model.WebHookPayload
 import com.github.ryebot.domain.deploy.detail.DeployPrepareContentService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -11,7 +11,7 @@ class ActionSyncService(
     private val deployPrepareContentService: DeployPrepareContentService
 ) : ActionService {
 
-    override fun doAction(triggerRequest: TriggerRequest) = runBlocking(Dispatchers.IO) {
-        deployPrepareContentService.updateTitleAndContentOnRelease(triggerRequest.toDeployPrepareParam())
+    override fun doAction(webHookPayload: WebHookPayload) = runBlocking(Dispatchers.IO) {
+        deployPrepareContentService.updateTitleAndContentOnRelease(webHookPayload.toDeployPrepareParam())
     }
 }

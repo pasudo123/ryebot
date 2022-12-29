@@ -15,6 +15,6 @@ class WebHookController(
 
     @PostMapping
     fun trigger(@RequestBody triggerRequest: TriggerRequest) {
-        webHookService.process(triggerRequest)
+        webHookService.process(triggerRequest.toWebHookPayload())
     }
 }
