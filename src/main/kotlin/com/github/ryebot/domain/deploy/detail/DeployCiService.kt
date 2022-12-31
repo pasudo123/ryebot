@@ -67,6 +67,9 @@ class DeployCiService(
         }
     }
 
+    fun sample() {
+    }
+
     companion object {
         private const val RYEBOT_DEPLOY = "ryebot-deploy"
     }

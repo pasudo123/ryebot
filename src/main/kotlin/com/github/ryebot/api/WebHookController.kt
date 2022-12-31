@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("trigger")
 class WebHookController(
-    private val webHookService: WebHookService
+    private val webHookService: WebHookService,
 ) {
 
     @PostMapping
     fun trigger(@RequestBody triggerRequest: TriggerRequest) {
+        // deployCiService.sample()
         webHookService.process(triggerRequest.toWebHookPayload())
     }
 }
