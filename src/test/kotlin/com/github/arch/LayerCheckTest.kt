@@ -19,7 +19,7 @@ import com.tngtech.archunit.library.Architectures.layeredArchitecture
 class LayerCheckTest {
 
     @ArchTest
-    fun `레이어 체크를 한다`(importedClasses: JavaClasses) {
+    fun `레이어간 의존성을 확인한다`(importedClasses: JavaClasses) {
 
         val layerArch = layeredArchitecture()
             .consideringAllDependencies()

@@ -15,7 +15,6 @@ class WebHookController(
 
     @PostMapping
     fun trigger(@RequestBody triggerRequest: TriggerRequest) {
-        // deployCiService.sample()
         webHookService.process(triggerRequest.toWebHookPayload())
     }
 }

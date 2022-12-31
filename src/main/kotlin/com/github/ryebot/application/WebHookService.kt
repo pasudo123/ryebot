@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 class WebHookService(
     private val actionOpenService: ActionOpenService,
     private val actionCreatedService: ActionCreatedService,
-    private val actionSyncService: ActionSyncService
+    private val actionSyncService: ActionSyncService,
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
