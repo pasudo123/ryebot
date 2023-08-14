@@ -5,4 +5,4 @@
 * ngrok 를 이용
 
 ## cicd test
-* 2
+* 3
