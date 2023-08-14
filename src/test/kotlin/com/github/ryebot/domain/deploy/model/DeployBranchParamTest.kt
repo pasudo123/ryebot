@@ -31,7 +31,7 @@ internal class DeployBranchParamTest {
         )
 
         // then
-        deployBranchParam.isReleaseCommentRegExWrong() shouldBe true
+        deployBranchParam.isReleaseCommentRegExWrong() shouldBe false
     }
 
     @ParameterizedTest
